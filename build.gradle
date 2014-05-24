@@ -1,0 +1,21 @@
+['idea', 'java'].each({ apply plugin: it })
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.11'
+}
+
+dependencies {
+  compile files("${System.properties['java.home']}/../lib/tools.jar")
+}
+
+idea {
+  project {
+    languageLevel = '1.7'
+  }
+}
+
+idea.project.ipr {
+  withXml { provider ->
+    provider.node.component.annotationProcessing.@enabled = 'true'
+  }
+}
