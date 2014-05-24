@@ -18,12 +18,12 @@ public class InspectingVisitor implements ObjectVisitor {
 
   @Override public boolean visit(Object o) {
     try {
-      Object iterator = engine.call("wrapIterator",new Object[]{o, true});
+      Object iterator = engine.call("wrapIterator", new Object[]{o, true});
       if (iterator instanceof Enumeration) {
         System.out.println("Was enumerator");
         output((Enumeration) iterator, engine);
       } else {
-        JavaHeapObject javaObj = (JavaHeapObject)engine.call("unwrapJavaObject",new Object[]{o});
+        JavaHeapObject javaObj = (JavaHeapObject) engine.call("unwrapJavaObject", new Object[]{o});
         System.out.println("Was Java object");
         output(javaObj, engine, snapshot);
       }
@@ -39,14 +39,14 @@ public class InspectingVisitor implements ObjectVisitor {
     if (javaObj.toString().contains("java.lang.Thread")) {
       System.out.println("It is a thread!!");
       JavaValueArray name = (JavaValueArray) new Accessor(engine).get("name", javaObj);
-      System.out.println(String.valueOf((char[])name.getElements()));
+      System.out.println(String.valueOf((char[]) name.getElements()));
     }
   }
 
   private void output(Enumeration iterator, OQLEngine engine) throws Exception {
     while (iterator.hasMoreElements()) {
       Object o = iterator.nextElement();
-      JavaHeapObject unwrapped = (JavaHeapObject)engine.call("unwrapJavaObject",new Object[]{o});
+      JavaHeapObject unwrapped = (JavaHeapObject) engine.call("unwrapJavaObject", new Object[]{o});
       System.out.println(o);
     }
   }

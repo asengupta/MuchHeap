@@ -6,7 +6,7 @@ public class CountingVisitor implements ObjectVisitor {
   int count = 0;
 
   @Override public boolean visit(Object o) {
-    count ++;
+    count++;
     return false;
   }
 

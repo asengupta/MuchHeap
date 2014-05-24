@@ -22,7 +22,8 @@ public class CompositeVisitor implements ObjectVisitor {
   }
 
   @Override public boolean visit(Object o) {
-    for (ObjectVisitor visitor: visitors) {
+    System.out.println("Called");
+    for (ObjectVisitor visitor : visitors) {
       visitor.visit(o);
     }
     return false;
