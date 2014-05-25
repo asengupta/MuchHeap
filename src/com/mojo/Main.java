@@ -15,19 +15,18 @@ public class Main {
 
     OQLEngine oqlEngine = new OQLEngine(snapshot);
     CountingVisitor counter = new CountingVisitor();
-    ObjectVisitor inspector = new InspectingVisitor(oqlEngine, snapshot,
-        new JavaHeapObjectCallback() {
-          @Override public void run(JavaHeapObject javaObj, Accessor accessor) throws Exception {
-            if (javaObj.toString().contains("java.lang.Thread")) {
-              System.out.println("It is a thread!!");
-              JavaValueArray name = (JavaValueArray) accessor.get("name", javaObj);
-              System.out.println(String.valueOf((char[]) name.getElements()));
-            }
-          }
-        });
-    ObjectVisitor compositeVisitor = new CompositeVisitor(counter, inspector);
-    oqlEngine.executeQuery("select t from java.lang.Thread t",
-        compositeVisitor);
+//    ObjectVisitor inspector = new InspectingVisitor(oqlEngine, snapshot,
+//        new JavaHeapObjectCallback() {
+//          @Override public void run(JavaHeapObject javaObj, Accessor accessor) throws Exception {
+//            if (javaObj.toString().contains("java.lang.Thread")) {
+//              System.out.println("It is a thread!!");
+//              JavaValueArray name = (JavaValueArray) accessor.get("name", javaObj);
+//              System.out.println(String.valueOf((char[]) name.getElements()));
+//            }
+//          }
+//        });
+//    ObjectVisitor compositeVisitor = new CompositeVisitor(counter, inspector);
+    oqlEngine.executeQuery("select t from java.lang.Thread t", counter);
     if (counter.getCount() > 6) System.out.println("Too many threads!!!");
     System.out.println(counter.getCount());
   }
