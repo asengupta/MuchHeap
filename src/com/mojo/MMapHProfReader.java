@@ -147,13 +147,10 @@ public class MMapHProfReader {
       matched[i] = true;
     }
 
-    System.out.println("In here");
-    System.out.println(candidatesLeft);
 
     int pos = 0;
     while (candidatesLeft > 0) {
       char c = (char) out.get();
-      System.out.println(c);
       currPos++;
       for (int i = 0; i < VERSIONS.length; i++) {
         if (matched[i]) {
@@ -358,7 +355,7 @@ public class MMapHProfReader {
 
   private void readHeapDump(long bytesLeft, long posAtEnd) throws IOException {
     while (bytesLeft > 0) {
-      System.out.println("Bytes left=" + bytesLeft);
+//      System.out.println("Bytes left=" + bytesLeft);
       int type = (int) out.get();
       if (debugLevel > 0) {
         System.out.println("    Read heap sub-record type " + type

@@ -10,10 +10,12 @@ import java.util.Enumeration;
 public class InspectingVisitor implements ObjectVisitor {
   private OQLEngine engine;
   private Snapshot snapshot;
+  private JavaHeapObjectCallback callback;
 
-  public InspectingVisitor(OQLEngine engine, Snapshot snapshot) {
+  public InspectingVisitor(OQLEngine engine, Snapshot snapshot, JavaHeapObjectCallback callback) {
     this.engine = engine;
     this.snapshot = snapshot;
+    this.callback = callback;
   }
 
   @Override public boolean visit(Object o) {
@@ -36,11 +38,7 @@ public class InspectingVisitor implements ObjectVisitor {
 
   private void output(JavaHeapObject javaObj, OQLEngine engine, Snapshot snapshot)
       throws Exception {
-    if (javaObj.toString().contains("java.lang.Thread")) {
-      System.out.println("It is a thread!!");
-      JavaValueArray name = (JavaValueArray) new Accessor(engine).get("name", javaObj);
-      System.out.println(String.valueOf((char[]) name.getElements()));
-    }
+    callback.run(javaObj, new Accessor(engine));
   }
 
   private void output(Enumeration iterator, OQLEngine engine) throws Exception {

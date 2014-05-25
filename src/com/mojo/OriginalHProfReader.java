@@ -394,7 +394,7 @@ public class OriginalHProfReader extends com.sun.tools.hat.internal.parser.Reade
 
   private void readHeapDump(long bytesLeft, long posAtEnd) throws IOException {
     while (bytesLeft > 0) {
-      System.out.println("Bytes left=" + bytesLeft);
+//      System.out.println("Bytes left=" + bytesLeft);
       int type = in.readUnsignedByte();
       if (debugLevel > 0) {
         System.out.println("    Read heap sub-record type " + type

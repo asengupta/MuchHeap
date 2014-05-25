@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class HeapLoader {
   public Snapshot load(String name) throws IOException {
+    long start = System.currentTimeMillis();
     PositionDataInputStream positionDataInputStream = new PositionDataInputStream(
         new FileInputStream(name));
     int i = positionDataInputStream.readInt();
@@ -17,6 +18,8 @@ public class HeapLoader {
     final Snapshot snapshot = reader.read();
     positionDataInputStream.close();
     snapshot.resolve(true);
+    long end = System.currentTimeMillis();
+    System.out.println("Loaded snapshot in " + (end - start) + " ms.");
     return snapshot;
   }
 }
